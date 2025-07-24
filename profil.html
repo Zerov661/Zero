@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Kelas XII RPL B</title>
+    <style>
+        :root {
+            --neon-blue: #08f;
+            --neon-pink: #f0f;
+            --neon-green: #0f8;
+            --dark-bg: #121212;
+            --darker-bg: #0a0a0a;
+            --text-light: #f0f0f0;
+            --text-dim: #aaa;
+            --transition-time: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--darker-bg);
+            padding: 2rem 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 136, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .class-name {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-light);
+            text-shadow: 0 0 10px var(--neon-blue), 
+                         0 0 20px var(--neon-blue),
+                         0 0 30px var(--neon-blue);
+            animation: neonPulse 2s infinite alternate;
+        }
+
+        .class-teacher {
+            font-size: 1.5rem;
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+        }
+
+        .class-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-box {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--neon-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+            transition: all var(--transition-time);
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.4);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            color: var(--neon-pink);
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--darker-bg);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all var(--transition-time);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--neon-green);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--neon-green);
+            transition: width var(--transition-time);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        section {
+            padding: 3rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px var(--neon-blue);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-blue), transparent);
+        }
+
+        /* Students List */
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .student-card {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 9px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            transition: all var(--transition-time);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            border-color: var(--neon-blue);
+        }
+
+        .student-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), transparent);
+            z-index: -1;
+        }
+
+        .student-number {
+            font-size: 0.8rem;
+            color: var(--neon-pink);
+            margin-bottom: 0.5rem;
+        }
+
+        .student-name {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .student-nickname {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+
+        /* Class Agreements */
+        .agreement-item {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid var(--neon-pink);
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            overflow: hidden;
+            transition: all var(--transition-time);
+        }
+
+        .agreement-header {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .agreement-title {
+            font-size: 1.2rem;
+            color: var(--neon-green);
+        }
+
+        .agreement-toggle {
+            color: var(--neon-pink);
+            font-size: 1.5rem;
+            transition: transform var(--transition-time);
+        }
+
+        .agreement-content {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-time), padding var(--transition-time);
+        }
+
+        .agreement-item.active .agreement-content {
+            max-height: 500px;
+            padding: 1rem 1.5rem 2rem;
+        }
+
+        .agreement-item.active .agreement-toggle {
+            transform: rotate(45deg);
+        }
+
+        .agreement-rules {
+            list-style-type: none;
+        }
+
+        .agreement-rule {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .agreement-rule::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--neon-blue);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--darker-bg);
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 0, 255, 0.2);
+        }
+
+        .footer-text {
+            color: var(--text-dim);
+        }
+
+        .footer-neon {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        /* Animations */
+        @keyframes neonPulse {
+            0% {
+                text-shadow: 0 0 10px var(--neon-blue), 
+                             0 0 20px var(--neon-blue),
+                             0 0 30px var(--neon-blue);
+            }
+            100% {
+                text-shadow: 0 0 15px var(--neon-blue), 
+                             0 0 30px var(--neon-blue),
+                             0 0 45px var(--neon-blue);
+            }
+        }
+
+        @keyframes neonGlow {
+            0%, 100% {
+                box-shadow: 0 0 5px var(--neon-blue), 
+                            inset 0 0 5px var(--neon-blue);
+            }
+            50% {
+                box-shadow: 0 0 20px var(--neon-blue), 
+                            inset 0 0 10px var(--neon-blue);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .class-name {
+                font-size: 2rem;
+            }
+
+            .class-teacher {
+                font-size: 1.2rem;
+            }
+
+            .stat-box {
+                padding: 0.8rem 1.2rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .students-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .class-name {
+                font-size: 1.8rem;
+            }
+
+            .class-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .students-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+<div class="container header-content">
+        <h1 class="class-name">XII RPL B</h1>
+
+        <img src="./Foto/Beacon.jpg" alt="Foto Zura Satoshi" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; border: 2px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); margin-bottom: 1rem;" />
+
+        <p class="class-teacher">By : Zura Satoshi</p>
+            
+            <div class="class-stats">
+                <div class="stat-box">
+                    <div class="stat-value">34</div>
+                    <div class="stat-label">Siswa</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">A+</div>
+                    <div class="stat-label">Predikat</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">2023</div>
+                    <div class="stat-label">Angkatan</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#about" class="nav-link">Kelas</a></li>
+                <li><a href="#students" class="nav-link">Siswa</a></li>
+                <li><a href="#agreements" class="nav-link">Sepakat</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="about">
+            <h1 class="section-title">Tentang Kelas</h1>
+            <p>Kelas XII RPL B adalah kelas dengan semangat belajar tinggi dan penuh kreativitas. Dengan motto "Random boleh aja, Asalkan serius dalam belajar", kami selalu berusaha untuk menjadi yang terbaik baik dalam hal apapun.</p>
+            
+            <div style="margin-top: 2rem; display: flex; justify-content: center;">
+                <img src="./Slide/Back-end.jpg" alt="Foto kelompok kelas XII RPL B" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--neon-blue); box-shadow: 0 0 20px rgba(0, 136, 255, 0.3);" />
+            </div>
+        </section>
+
+        <section id="students">
+            <h2 class="section-title">Daftar Siswa</h2>
+            <div class="students-grid">
+                <!-- Siswa 1-10 -->
+                <div class="student-card">
+                    <div class="student-number">1</div>
+                    <div class="student-name">Ahmd alif idrus</div>
+                    <div class="student-nickname">"Lif1"</div>
+                </div>
+                <div class="student-card">
+                    <div class="student-number">2</div>
+                    <div class="student-name">Ahmad Eka Saputra</div>
+                    <div class="student-nickname">"Eka"</div>
+                </div>
+                <div class="student-card">
+                    <div class="student-number">3</div>
+                    <div class="student-name">Ameliya Ramadhani</div>
+                    <div class="student-nickname">"Amel"</div>
+                </div>
+                  <div class="student-card">
+                    <div class="student-number">4</div>
+                    <div class="student-name">Facry Alfay Renra</div>
+                    <div class="student-nickname">"Fahri"</div>
+                </div>
+                  <div class="student-card">
+                    <div class="student-number">5</div>
+                    <div class="student-name">Aprilia Dwi Astuti</div>
+                    <div class="student-nickname">"Lia"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">6</div>
+                    <div class="student-name">Cinta Apriliana Mansur</div>
+                    <div class="student-nickname">"Cinta"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">7</div>
+                    <div class="student-name">Eka P Ramadani</div>
+                    <div class="student-nickname">"Eka Putri"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">8</div>
+                    <div class="student-name">Fanny Nurul Dzihni</div>
+                    <div class="student-nickname">"Fanny"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">9</div>
+                    <div class="student-name">Friyang Yurdina Haris</div>
+                    <div class="student-nickname">"Friyang"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">10</div>
+                    <div class="student-name">Ince Nur Annisa</div>
+                    <div class="student-nickname">"Ince"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">11</div>
+                    <div class="student-name">Muh Kurniawan</div>
+                    <div class="student-nickname">"Wawan"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">12</div>
+                    <div class="student-name">Muh Nurikhsan</div>
+                    <div class="student-nickname">"Pragos"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">13</div>
+                    <div class="student-name">Muh.Akram</div>
+                    <div class="student-nickname">"Akram"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">14</div>
+                    <div class="student-name">Muh.Alfhairul</div>
+                    <div class="student-nickname">"P4i"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">15</div>
+                    <div class="student-name">Muh.Bakhtiar</div>
+                    <div class="student-nickname">"Ty4r"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">16</div>
+                    <div class="student-name">Muh.Fahriel Rabbani</div>
+                    <div class="student-nickname">"Rabbang"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">17</div>
+                    <div class="student-name">Muh.Firman Ghani R</div>
+                    <div class="student-nickname">"Firman"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">18</div>
+                    <div class="student-name">Muhammad Nur Ikhsan</div>
+                    <div class="student-nickname">"Exam"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">19</div>
+                    <div class="student-name">Muhlis</div>
+                    <div class="student-nickname">"Zer"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">20</div>
+                    <div class="student-name">Mutiara Amalia</div>
+                    <div class="student-nickname">"Muti"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">21</div>
+                    <div class="student-name">Nasra</div>
+                    <div class="student-nickname">"Nasra"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">22</div>
+                    <div class="student-name">Nayla Mauliani</div>
+                    <div class="student-nickname">"Nayla"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">23</div>
+                    <div class="student-name">Nia Ramadhani</div>
+                    <div class="student-nickname">"Nia"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">24</div>
+                    <div class="student-name">Nuraina</div>
+                    <div class="student-nickname">"Aina"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">25</div>
+                    <div class="student-name">Nurhikma Alya</div>
+                    <div class="student-nickname">"Hikma"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">26</div>
+                    <div class="student-name">Rismayanti</div>
+                    <div class="student-nickname">"Risma"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">27</div>
+                    <div class="student-name">Sahrani</div>
+                    <div class="student-nickname">"Rani"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">28</div>
+                    <div class="student-name">Sri Wahyuni</div>
+                    <div class="student-nickname">"Uni"</div>
+                </div>
+                            <div class="student-card">
+                    <div class="student-number">29</div>
+                    <div class="student-name">Sriastuti</div>
+                    <div class="student-nickname">"Tuti"</div>
+                </div>
+                             <div class="student-card">
+                    <div class="student-number">30</div>
+                    <div class="student-name">Syafira Aulia</div>
+                    <div class="student-nickname">"Fira"</div>
+                </div>
+                             <div class="student-card">
+                    <div class="student-number">31</div>
+                    <div class="student-name">Syahra Amelia</div>
+                    <div class="student-nickname">"Syahra"</div>
+                </div>
+                <div class="student-card">
+                    <div class="student-number">32</div>
+                    <div class="student-name">Yuas</div>
+                    <div class="student-nickname">"Yuas"</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="agreements">
+            <h2 class="section-title">Kesepakatan Kelas</h2>
+            
+            <div class="agreement-item">
+                <div class="agreement-header">
+                    <h3 class="agreement-title">Tata Tertib Kelas</h3>
+                    <span class="agreement-toggle">+</span>
+                </div>
+                <div class="agreement-content">
+                    <ul class="agreement-rules">
+                        <li class="agreement-rule">Hadir tepat waktu sebelum bel masuk berbunyi</li>
+                        <li class="agreement-rule">Memakai seragam lengkap dan rapi sesuai ketentuan</li>
+                        <li class="agreement-rule">Tidak menggunakan handphone selama jam pelajaran</li>
+                        <li class="agreement-rule">Menjaga kebersihan dan kerapian kelas</li>
+                        <li class="agreement-rule">Aktif bertanya dan berpartisipasi dalam pembelajaran</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="agreement-item">
+                <div class="agreement-header">
+                    <h3 class="agreement-title">Komitmen Belajar</h3>
+                    <span class="agreement-toggle">+</span>
+                </div>
+                <div class="agreement-content">
+                    <ul class="agreement-rules">
+                        <li class="agreement-rule">Mengerjakan tugas tepat waktu dengan hasil terbaik</li>
+                        <li class="agreement-rule">Membaca materi sebelum pelajaran dimulai</li>
+                        <li class="agreement-rule">Membuat rangkuman setiap materi pelajaran</li>
+                        <li class="agreement-rule">Berlatih soal minimal 1 jam setiap hari</li>
+                        <li class="agreement-rule">Saling membantu teman yang kesulitan memahami materi</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="agreement-item">
+                <div class="agreement-header">
+                    <h3 class="agreement-title">Keyakinan Kelas</h3>
+                    <span class="agreement-toggle">+</span>
+                </div>
+                <div class="agreement-content">
+                    <ul class="agreement-rules">
+                        <li class="agreement-rule">Posisi kursi dan meja tidak boleh di geser dari tempat nya tampa seizin wali kelas</li>
+                        <li class="agreement-rule">Sampah harus di buang di tempat sampah bukan di meja atau di laci</li>
+                        <li class="agreement-rule">Kebersihan kelas harus di jaga bersama sesuai jadwal piket</li>
+                        <li class="agreement-rule">Kursi dan meja di gunakana untuk belajar bukan untuk tempat tidur</li>
+                        <li class="agreement-rule">Semua fasilitas kelas harus di jaga keamanannya</li>
+                        <li class="agreement-rule">Setiap siswa bertanggung jawab terhadap meja dan kursi apabila rusak</li>
+                        <li class="agreement-rule">Minuman dingin sebaiknya tidak di letakkan diatas meja</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p class="footer-text">© 2023 <span class="footer-neon">XII RPL B</span> - SMK Negeri 1 Maros</p>
+            <p class="footer-text">Designed with <span style="color: var(--neon-pink);">♥</span> by Zura Satoshi</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll reveal animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+             
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Toggle agreement content
+            const agreementHeaders = document.querySelectorAll('.agreement-header');
+            
+            agreementHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const item = this.parentElement;
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Neon hover effect for student cards
+            const studentCards = document.querySelectorAll('.student-card');
+            
+            studentCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = `0 0 20px ${getRandomNeonColor()}`;
+                    this.style.borderColor = getRandomNeonColor();
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '';
+                    this.style.borderColor = 'rgba(0, 255, 255, 0.1)';
+                });
+            });
+            
+            function getRandomNeonColor() {
+                const colors = ['var(--neon-blue)', 'var(--neon-pink)', 'var(--neon-green)'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+        });
+    </script>
+</body>
+</html>
+
